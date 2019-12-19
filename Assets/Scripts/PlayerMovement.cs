@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {   
@@ -19,11 +20,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     public Sprite downMoveSprite;
 
-
-    private Rigidbody player;
     private Vector3 moveDirection = Vector3.zero;
     CharacterController characterController;
     SpriteRenderer sprite;
+    private GameObject bomb;
 
     private enum Direction
     {
@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         sprite = transform.GetChild(0).GetComponent<SpriteRenderer>() as SpriteRenderer;
+        bomb = Resources.Load<GameObject>("Bomb") as GameObject;
     }
 
     private void movePlayer()
@@ -48,14 +49,9 @@ public class PlayerMovement : MonoBehaviour
 
         moveDirection = new Vector3(moveHorizontal, 0.0f, moveVertical) * playerSpeed;
 
-        moveDirection.y -= 10f * Time.deltaTime;
+        moveDirection.y -= 200f * Time.deltaTime;
 
         characterController.Move(moveDirection * Time.deltaTime);
-    }
-
-    void Update()
-    {
-        movePlayer();
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
@@ -99,6 +95,23 @@ public class PlayerMovement : MonoBehaviour
                 sprite.sprite = rightIdleSprite;
                 sprite.flipX = false;
             }
+        }
+    }
+
+    void Update()
+    {
+        movePlayer();
+
+        if(Input.GetKeyDown(KeyCode.Space)){
+            Vector3 position = characterController.GetComponent<Transform>().position;
+
+            position.x = (float)Math.Truncate(position.x);
+            position.z = (float)Math.Truncate(position.z);
+
+            GameObject bombObj = Instantiate(bomb, position, Quaternion.identity) as GameObject;
+
+            Destroy(bombObj, 2);
+
         }
     }
 }

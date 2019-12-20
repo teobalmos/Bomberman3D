@@ -6,7 +6,7 @@ using System;
 public class GenerateBlocks : MonoBehaviour
 {
     public int noOfRows = 9;
-    public GameObject box;
+    private GameObject crate;
 
     private List<Tuple<int, int>> createCornersList()
     {
@@ -38,6 +38,7 @@ public class GenerateBlocks : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        crate = Resources.Load<GameObject>("Crate") as GameObject;
 
         List<Tuple<int, int>> cornersList = createCornersList();
 
@@ -53,7 +54,7 @@ public class GenerateBlocks : MonoBehaviour
                 {
                     if (!Physics.CheckSphere(position, 0.4f) && !cornersList.Contains(new Tuple<int, int>(i,j)))
                     {
-                        Instantiate(box, position, Quaternion.identity, transform);
+                        Instantiate(crate, position, Quaternion.identity, transform);
                     
                     }
                 }

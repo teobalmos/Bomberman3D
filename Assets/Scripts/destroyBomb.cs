@@ -7,6 +7,10 @@ public class destroyBomb : MonoBehaviour
     [SerializeField]
     public ParticleSystem particleSystemPrefab;
 
+    void Start(){
+        // Physics.IgnoreCollision()
+    }
+
     void OnDestroy(){
 
         ParticleSystem particleSystem = Instantiate(particleSystemPrefab) as ParticleSystem;

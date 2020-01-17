@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Map
   - Bomb
+  - PlayerEyes
+  - Crate
   layers:
   - Default
   - TransparentFX

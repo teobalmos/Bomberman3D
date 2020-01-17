@@ -42,13 +42,13 @@ public class GenerateBlocks : MonoBehaviour
 
         List<Tuple<int, int>> cornersList = createCornersList();
 
-        for(int i = -noOfRows; i <= noOfRows; i++)
+        for(var i = -noOfRows; i <= noOfRows; i++)
         {
-            for(int j = -noOfRows; j <= noOfRows; j++)
+            for(var j = -noOfRows; j <= noOfRows; j++)
             {
                 Vector3 position = new Vector3(i, 0.5f, j);
 
-                float rate = UnityEngine.Random.Range(0f, 1f);
+                var rate = UnityEngine.Random.Range(0f, 1f);
 
                 if(rate <= 0.7)
                 {
@@ -60,11 +60,5 @@ public class GenerateBlocks : MonoBehaviour
                 }
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

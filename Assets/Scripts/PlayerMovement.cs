@@ -11,21 +11,24 @@ public class PlayerMovement : MonoBehaviour
     private GameObject bomb;
     private Animator anim;
 
+    private ICharacterInputController _iCharachterInputController;
+
     void Start()
     {
+        _iCharachterInputController = new HumanCharacterController();
+        // _iCharachterInputController = new AICharacterController();
         anim = this.GetComponent<Animator> ();
         characterController = GetComponent<CharacterController>();
         bomb = Resources.Load<GameObject>("Bomb") as GameObject;
     }
 
-    private void movePlayer()
+    private void movePlayer(in CharacterInput input)
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        var moveHorizontal = input.horizontal;
+        var moveVertical = input.vertical;
 
         moveDirection = new Vector3(moveHorizontal, 0.0f, moveVertical);
         
-
         var Speed = new Vector2(moveHorizontal, moveVertical).sqrMagnitude;
         anim.SetFloat("Blend", Speed );
 
@@ -41,43 +44,42 @@ public class PlayerMovement : MonoBehaviour
     private void placeBomb(){
         Vector3 position = characterController.GetComponent<Transform>().position;
 
-            position.x = (float)Math.Round(position.x);
-            position.z = (float)Math.Round(position.z);
-            position.y = 0.5f;
+        position.x = (float)Math.Round(position.x);
+        position.z = (float)Math.Round(position.z);
+        position.y = 0.5f;
 
-            Collider[] colliders = Physics.OverlapSphere(position, 0.4f, 9);
+        Collider[] colliders = Physics.OverlapSphere(position, 0.4f, 9);
 
-            Debug.Log(colliders.GetLength(0));
+        var isMap = false;
 
-            bool isMap = false;
-
-            foreach(Collider collider in colliders){
-                Debug.Log(collider.gameObject.tag);
-                if(collider.gameObject.tag == "Map"){
-                    isMap = true;
-                }
+        foreach(Collider collider in colliders){
+            Debug.Log(collider.gameObject.tag);
+            if(collider.gameObject.tag == "Map" || collider.gameObject.tag == "Crate"){
+                isMap = true;
             }
+        }
 
-            if(!isMap){
-                Debug.Log(position);
-                GameObject bombObj = Instantiate(bomb, position, Quaternion.identity) as GameObject;
-
-                Destroy(bombObj, 2);
-            }
+        if(!isMap){
+            Debug.Log(position);
+            
+            var bombObj = Instantiate(bomb, position, Quaternion.identity) as GameObject;
+            
+//            Physics.IgnoreLayerCollision(9, 9, true);
+            
+//            Physics.IgnoreCollision(GetComponent<Collider>(),bombObj.GetComponent<BoxCollider>(), true);
+            Destroy(bombObj, 2);
+        }
     }
 
     void Update()
     {
-        movePlayer();
+        var input = new CharacterInput();
+        _iCharachterInputController.GetInput(ref input);
 
-        if(Input.GetKeyDown(KeyCode.Space)){
+        movePlayer(in input);
+
+        if(input.bombDrop){
             placeBomb();
-        }
-    }
-
-    void OnCollisionEnter(Collision collision){
-        if(collision.collider.tag == "Bomb"){
-            Debug.Log("Bomb");
         }
     }
 }

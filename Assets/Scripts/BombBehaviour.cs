@@ -12,7 +12,7 @@ public class BombBehaviour : MonoBehaviour
 
     void Start(){
         var playerCollider = GameObject.Find("Player").GetComponent<Collider>();
-        Physics.IgnoreCollision(GetComponent<Collider>(),playerCollider,true);
+        Physics.IgnoreCollision(playerCollider, GetComponent<Collider>(), true);
     }
 
     void OnDestroy(){
@@ -47,15 +47,5 @@ public class BombBehaviour : MonoBehaviour
 
         Destroy(particleSystem.gameObject, particleSystem.main.duration);
     }
-
-//    private void OnTriggerExit(Collider other)
-//    {
-//        Debug.Log("Trigger exit");
-//        var playerCollider = GameObject.Find("Player").GetComponent<Collider>();
-//        if (playerCollider)
-//        {
-//            Debug.Log("player collider found");
-//        }
-////        Physics.IgnoreCollision(playerCollider, GetComponent<Collider>(), false);
-//    }
+    
 }

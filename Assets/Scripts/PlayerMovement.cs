@@ -63,11 +63,11 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log(position);
             
             var bombObj = Instantiate(bomb, position, Quaternion.identity) as GameObject;
-            
-//            Physics.IgnoreLayerCollision(9, 9, true);
-            
-//            Physics.IgnoreCollision(GetComponent<Collider>(),bombObj.GetComponent<BoxCollider>(), true);
-            Destroy(bombObj, 2);
+
+            //            Physics.IgnoreLayerCollision(9, 9, true);
+
+            //Physics.IgnoreCollision(GetComponent<Collider>(), bombObj.GetComponent<BoxCollider>(), true);
+            //Destroy(bombObj, 2);
         }
     }
 
@@ -78,7 +78,14 @@ public class PlayerMovement : MonoBehaviour
 
         movePlayer(in input);
 
-        if(input.bombDrop){
+        var bombFound = GameObject.FindGameObjectsWithTag("Bomb");
+
+        if (bombFound != null && bombFound.Length > 0)
+        {
+            Debug.Log("Collision ignored: " + Physics.GetIgnoreCollision(GetComponent<Collider>(), bombFound[0].GetComponent<Collider>()));
+
+        }
+        if (input.bombDrop){
             placeBomb();
         }
     }

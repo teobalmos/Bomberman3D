@@ -5,6 +5,8 @@ using System;
 
 public class GenerateBlocks : MonoBehaviour
 {
+    [SerializeField]
+    GameObject map;
     public int noOfRows = 9;
     private GameObject crate;
 
@@ -42,20 +44,20 @@ public class GenerateBlocks : MonoBehaviour
 
         List<Tuple<int, int>> cornersList = createCornersList();
 
-        for(var i = -noOfRows; i <= noOfRows; i++)
+        for (var i = -noOfRows; i <= noOfRows; i++)
         {
-            for(var j = -noOfRows; j <= noOfRows; j++)
+            for (var j = -noOfRows; j <= noOfRows; j++)
             {
                 Vector3 position = new Vector3(i, 0.5f, j);
 
                 var rate = UnityEngine.Random.Range(0f, 1f);
 
-                if(rate <= 0.7)
+                if (rate <= 0.7)
                 {
-                    if (!Physics.CheckSphere(position, 0.4f) && !cornersList.Contains(new Tuple<int, int>(i,j)))
+                    if (!Physics.CheckSphere(position, 0.4f) && !cornersList.Contains(new Tuple<int, int>(i, j)))
                     {
-                        Instantiate(crate, position, Quaternion.identity, transform);
-                    
+                        Instantiate(crate, position, Quaternion.identity, map.transform);
+
                     }
                 }
             }

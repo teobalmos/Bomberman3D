@@ -11,8 +11,8 @@ public class CameraControl : MonoBehaviour
     Transform target;
     [SerializeField]
     GameObject map;
-    [SerializeField]
-    int noOfPlayers = 2;
+    
+    private int noOfPlayers;
 
     public int noOfRows = 9;
     private GameObject crate;
@@ -37,14 +37,14 @@ public class CameraControl : MonoBehaviour
 
     void SpawnPlayers()
     {
+        noOfPlayers = PlayerPrefs.GetInt("PlayerCount");
         CreatePlayerSpawnPositions();
         for (int i = 0; i < noOfPlayers; i++)
         {
             GameObject player = playerPrefab[i];
             Debug.Log("i " + i + " // " + spawnPositions.Count);
             Vector3 position = new Vector3(spawnPositions[i].Item1, 0f, spawnPositions[i].Item2);
-            Instantiate(player, position, Quaternion.identity, map.transform);
-            player.transform.Rotate(0f, 180f, 0f, Space.World);
+            Instantiate(player, position, Quaternion.Euler(new Vector3(0, 180, 0)), map.transform);
         }
     }
 

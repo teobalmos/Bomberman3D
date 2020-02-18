@@ -9,9 +9,13 @@ public class SelectionScript : MonoBehaviour
     [SerializeField]
     public GameObject warningCanvas;
 
-    [HideInInspector]
-    public int noOfPlayers = 0;
+    [SerializeField] public GameObject redPlayer;
+    [SerializeField] public GameObject bluePlayer;
+    [SerializeField] public GameObject yellowPlayer;
+    [SerializeField] public GameObject blackPlayer;
     
+    [HideInInspector] public int noOfPlayers = 0;
+
     void Start()
     {
         Button startGameButton = GameObject.Find("StartGameButton").GetComponent<Button>();
@@ -31,13 +35,6 @@ public class SelectionScript : MonoBehaviour
 
         Button join4 = GameObject.Find("Join4").GetComponent<Button>();
         join4.onClick.AddListener(() => JoinPlayer(join4));
-
-        GameObject playerRed = GameObject.Find("PlayerRed");
-        playerRed.GetComponent<Animator>().SetTrigger("happy");
-        //playerRed.GetComponent<Animation>().Play();
-        //ChangeEyeOffset(EyePosition.happy);
-        //ChangeAnimatorIdle("happy");
-
     }
     
     private void DisableWarning()
@@ -63,7 +60,38 @@ public class SelectionScript : MonoBehaviour
             button.interactable = false;
             button.GetComponentInChildren<Text>().text = "Joined";
             noOfPlayers++;
+
+            switch (buttonName[4])
+            {
+                case '1':
+                    ChangePlayerAnimation(redPlayer);
+                    break;
+                case '2':
+                    ChangePlayerAnimation(bluePlayer);
+                    break;
+                case '3':
+                    ChangePlayerAnimation(yellowPlayer);
+                    break;
+                case '4':
+                    ChangePlayerAnimation(blackPlayer);
+                    break;
+            }
         }
+    }
+
+    void ChangePlayerAnimation(GameObject player)
+    {
+        Renderer[] characterMaterials = player.GetComponentsInChildren<Renderer>();
+        for (int i = 0; i < characterMaterials.Length; i++)
+        {
+            if (characterMaterials[i].transform.CompareTag("PlayerEyes"))
+            {
+                characterMaterials[i].material.SetColor("_EmmisionColor", new Color(191,25,25));
+                characterMaterials[i].material.SetTextureOffset("_MainTex", new Vector2(.66f,0));
+            }
+        }
+        Animator animator = player.GetComponent<Animator>();
+        animator.SetTrigger("angry");
     }
 
     void StartGame()
@@ -77,6 +105,7 @@ public class SelectionScript : MonoBehaviour
         }
         else
         {
+            PlayerPrefs.SetInt("PlayerCount", noOfPlayers);
             SceneManager.LoadScene("GameScene");
         }
     }

@@ -2630,7 +2630,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 6.44e-42, y: 1.02e-43, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 4.5905e-41, y: 0, z: 0, w: 1.9983592e-32}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -3422,8 +3422,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 50
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3446,13 +3446,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.32259575, y: -0, z: -0, w: 0.9465369}
-  m_LocalPosition: {x: -8.5, y: 6.58, z: -14.73}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 0, y: 8.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 37.640003, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3470,7 +3470,6 @@ MonoBehaviour:
   - {fileID: 5394765155307691997, guid: 89ceb98f47f56564d813b98aee35d857, type: 3}
   - {fileID: 5394765155307691997, guid: 5b817c618450a8d41aa975517b18e780, type: 3}
   - {fileID: 5394765155307691997, guid: 9fb35223fc8d9db43815069eca2dc547, type: 3}
-  target: {fileID: 0}
   map: {fileID: 3786681180460182159}
   noOfRows: 9
 --- !u!114 &963194230

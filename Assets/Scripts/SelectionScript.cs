@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class SelectionScript : MonoBehaviour
+public class SelectionScript : Menu
 {
     [SerializeField]
     public GameObject warningCanvas;
@@ -13,27 +11,24 @@ public class SelectionScript : MonoBehaviour
     [SerializeField] public GameObject bluePlayer;
     [SerializeField] public GameObject yellowPlayer;
     [SerializeField] public GameObject blackPlayer;
+
+    [SerializeField] public Button startGameBtn;
+    [SerializeField] public Button quitBtn;
+    [SerializeField] public Button join1;
+    [SerializeField] public Button join2;
+    [SerializeField] public Button join3;
+    [SerializeField] public Button join4;
+    [SerializeField] public Button warningBtn;
+
+    private int noOfPlayers = 0;
     
-    [HideInInspector] public int noOfPlayers = 0;
-
-    void Start()
+    private void Start()
     {
-        Button startGameButton = GameObject.Find("StartGameButton").GetComponent<Button>();
-        startGameButton.onClick.AddListener(StartGame);
-
-        Button quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
-        quitButton.onClick.AddListener(QuitGame);
-
-        Button join1 = GameObject.Find("Join1").GetComponent<Button>();
+        startGameBtn.onClick.AddListener(StartGame);
+        quitBtn.onClick.AddListener(QuitGame);
         join1.onClick.AddListener(() => JoinPlayer(join1));
-
-        Button join2 = GameObject.Find("Join2").GetComponent<Button>();
         join2.onClick.AddListener(() => JoinPlayer(join2));
-
-        Button join3 = GameObject.Find("Join3").GetComponent<Button>();
         join3.onClick.AddListener(() => JoinPlayer(join3));
-
-        Button join4 = GameObject.Find("Join4").GetComponent<Button>();
         join4.onClick.AddListener(() => JoinPlayer(join4));
     }
     
@@ -43,7 +38,7 @@ public class SelectionScript : MonoBehaviour
         warningCanvas.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKey("escape"))
         {
@@ -51,9 +46,9 @@ public class SelectionScript : MonoBehaviour
         }
     }
 
-    void JoinPlayer(Button button)
+    private void JoinPlayer(Button button)
     {
-        string buttonName = button.name;
+        var buttonName = button.name;
         if(buttonName[4] - noOfPlayers == 49)
         {
             Debug.Log("pressed button: " + button);
@@ -75,42 +70,45 @@ public class SelectionScript : MonoBehaviour
                 case '4':
                     ChangePlayerAnimation(blackPlayer);
                     break;
+                default:
+                    Debug.LogError("Button name error on number of players");
+                    break;
             }
         }
     }
 
-    void ChangePlayerAnimation(GameObject player)
+    private static void ChangePlayerAnimation(GameObject player)
     {
-        Renderer[] characterMaterials = player.GetComponentsInChildren<Renderer>();
-        for (int i = 0; i < characterMaterials.Length; i++)
+        var characterMaterials = player.GetComponentsInChildren<Renderer>();
+        foreach (var material in characterMaterials)
         {
-            if (characterMaterials[i].transform.CompareTag("PlayerEyes"))
+            if (material.transform.CompareTag("PlayerEyes"))
             {
-                characterMaterials[i].material.SetColor("_EmmisionColor", new Color(191,25,25));
-                characterMaterials[i].material.SetTextureOffset("_MainTex", new Vector2(.66f,0));
+                material.material.SetColor("_EmmisionColor", new Color(191,25,25));
+                material.material.SetTextureOffset("_MainTex", new Vector2(.66f,0));
             }
         }
-        Animator animator = player.GetComponent<Animator>();
+
+        var animator = player.GetComponent<Animator>();
         animator.SetTrigger("angry");
     }
 
-    void StartGame()
+    private void StartGame()
     {
         Debug.Log("Start Game");
         if (noOfPlayers < 2)
         {
             warningCanvas.SetActive(true);
-            Button WarningOK = GameObject.Find("WarningButton").GetComponent<Button>();
-            WarningOK.onClick.AddListener(DisableWarning);
+            warningBtn.onClick.AddListener(DisableWarning);
         }
         else
         {
-            PlayerPrefs.SetInt("PlayerCount", noOfPlayers);
+            GameDirector.instance.SetPlayers(noOfPlayers);
             SceneManager.LoadScene("GameScene");
         }
     }
 
-    void QuitGame()
+    private static void QuitGame()
     {
         Debug.Log("Quit");
         Application.Quit();

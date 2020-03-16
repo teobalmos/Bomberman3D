@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class GameManagementScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-      
-    }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKey("escape"))
         {

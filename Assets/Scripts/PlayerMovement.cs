@@ -6,20 +6,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     public float playerSpeed;
 
+    [SerializeField] public GameObject bomb;
+
     private Vector3 moveDirection = Vector3.zero;
     CharacterController characterController;
-    private GameObject bomb;
     private Animator anim;
 
-    private ICharacterInputController _iCharachterInputController;
+    private ICharacterInputController _iCharacterInputController;
 
-    void Start()
+    private void Start()
     {
-        _iCharachterInputController = new HumanCharacterController();
-        // _iCharachterInputController = new AICharacterController();
+        _iCharacterInputController = new HumanCharacterController();
+        // _iCharacterInputController = new AICharacterController();
         anim = this.GetComponent<Animator> ();
         characterController = GetComponent<CharacterController>();
-        bomb = Resources.Load<GameObject>("Bomb") as GameObject;
     }
 
     private void movePlayer(in CharacterInput input)
@@ -42,17 +42,17 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void placeBomb(){
-        Vector3 position = characterController.GetComponent<Transform>().position;
+        var position = characterController.GetComponent<Transform>().position;
 
         position.x = (float)Math.Round(position.x);
         position.z = (float)Math.Round(position.z);
         position.y = 0.5f;
 
-        Collider[] colliders = Physics.OverlapSphere(position, 0.4f, 9);
+        var colliders = Physics.OverlapSphere(position, 0.4f, 9);
 
         var isMap = false;
 
-        foreach(Collider collider in colliders){
+        foreach(var collider in colliders){
             Debug.Log(collider.gameObject.tag);
             if(collider.gameObject.tag == "Map" || collider.gameObject.tag == "Crate"){
                 isMap = true;
@@ -62,19 +62,14 @@ public class PlayerMovement : MonoBehaviour
         if(!isMap){
             Debug.Log(position);
             
-            var bombObj = Instantiate(bomb, position, Quaternion.identity) as GameObject;
-
-            //            Physics.IgnoreLayerCollision(9, 9, true);
-
-            //Physics.IgnoreCollision(GetComponent<Collider>(), bombObj.GetComponent<BoxCollider>(), true);
-            //Destroy(bombObj, 2);
+            Instantiate(bomb, position, Quaternion.identity);
         }
     }
 
-    void Update()
+    private void Update()
     {
         var input = new CharacterInput();
-        _iCharachterInputController.GetInput(ref input);
+        _iCharacterInputController.GetInput(ref input);
 
         movePlayer(in input);
 

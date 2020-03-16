@@ -4,22 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-//============
-// Probably don't need it anymore
-//============
-
-public class ExitGameScript : MonoBehaviour
+public class TitleMenuScript : Menu
 {
     [SerializeField] public Button startGameBtn;
     [SerializeField] public Button quitBtn;
     
-    // Start is called before the first frame update
     void Start()
     {
-        startGameBtn = GameObject.Find("StartGameButton").GetComponent<Button>();
         startGameBtn.onClick.AddListener(StartGame);
-
-        quitBtn = GameObject.Find("QuitButton").GetComponent<Button>();
         quitBtn.onClick.AddListener(QuitGame);
     }
 
@@ -35,7 +27,7 @@ public class ExitGameScript : MonoBehaviour
     void StartGame()
     {
         Debug.Log("Start Game");
-        SceneManager.LoadScene("PlayerSelection");
+        MenuManager.instance.ChangeMenu<SelectionScript>();
     }
 
     void QuitGame()

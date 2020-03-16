@@ -3560,6 +3560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 5
+  bomb: {fileID: 5961226406861512991, guid: b7d90f74c80de34479ec5aef939ee7bf, type: 3}
 --- !u!1 &5397485627197107128
 GameObject:
   m_ObjectHideFlags: 0

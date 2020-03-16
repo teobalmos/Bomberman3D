@@ -14,7 +14,7 @@ public class CharacterSkinController : MonoBehaviour
     public EyePosition eyeState;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         animator = GetComponent<Animator>();
         characterMaterials = GetComponentsInChildren<Renderer>();
@@ -22,7 +22,7 @@ public class CharacterSkinController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -50,25 +50,25 @@ public class CharacterSkinController : MonoBehaviour
         }
     }
 
-    void ChangeAnimatorIdle(string trigger)
+    private void ChangeAnimatorIdle(string trigger)
     {
         animator.SetTrigger(trigger);
     }
 
-    void ChangeMaterialSettings(int index)
-    {
-        for (int i = 0; i < characterMaterials.Length; i++)
-        {
-            if (characterMaterials[i].transform.CompareTag("PlayerEyes"))
-                characterMaterials[i].material.SetColor("_EmissionColor", eyeColors[index]);
-            else
-                characterMaterials[i].material.SetTexture("_MainTex",albedoList[index]);
-        }
-    }
+//    void ChangeMaterialSettings(int index)
+//    {
+//        for (int i = 0; i < characterMaterials.Length; i++)
+//        {
+//            if (characterMaterials[i].transform.CompareTag("PlayerEyes"))
+//                characterMaterials[i].material.SetColor("_EmissionColor", eyeColors[index]);
+//            else
+//                characterMaterials[i].material.SetTexture("_MainTex",albedoList[index]);
+//        }
+//    }
 
-    void ChangeEyeOffset(EyePosition pos)
+    private void ChangeEyeOffset(EyePosition pos)
     {
-        Vector2 offset = Vector2.zero;
+        var offset = Vector2.zero;
 
         switch (pos)
         {

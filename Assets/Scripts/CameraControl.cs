@@ -7,20 +7,11 @@ using UnityEngine.UIElements;
 
 public class CameraControl : MonoBehaviour
 {
-    public GameObject[] playerPrefab;
 
-//    [SerializeField]
-//    Transform target;
-    [SerializeField]
-    GameObject map;
-    
     private int noOfPlayers;
-
-    public int noOfRows = 9;
     private GameObject crate;
 
     private Vector3 offset;
-    private List<Tuple<int, int>> spawnPositions = new List<Tuple<int, int>>();
     private Vector3 finalPosition;
     private GameObject[] players;
     private Camera camera;
@@ -30,34 +21,6 @@ public class CameraControl : MonoBehaviour
     private void Awake()
     {
         camera = GetComponentInChildren<Camera>();
-    }
-
-    private void Start()
-    {
-        SpawnPlayers();
-        players = GameObject.FindGameObjectsWithTag("Player");
-//        offset = transform.position - target.position;
-    }
-
-    private void CreatePlayerSpawnPositions()
-    {
-        spawnPositions.Add(new Tuple<int, int>(-noOfRows, -noOfRows));
-        spawnPositions.Add(new Tuple<int, int>(noOfRows, noOfRows));
-        spawnPositions.Add(new Tuple<int, int>(-noOfRows, noOfRows));
-        spawnPositions.Add(new Tuple<int, int>(noOfRows, -noOfRows));
-    }
-
-    private void SpawnPlayers()
-    {
-        noOfPlayers = PlayerPrefs.GetInt("PlayerCount");
-        CreatePlayerSpawnPositions();
-        for (var i = 0; i < noOfPlayers; i++)
-        {
-            GameObject player = playerPrefab[i];
-            Debug.Log("i " + i + " // " + spawnPositions.Count);
-            Vector3 position = new Vector3(spawnPositions[i].Item1, 0f, spawnPositions[i].Item2);
-            Instantiate(player, position, Quaternion.Euler(new Vector3(0, 180, 0)), map.transform);
-        }
     }
 
     private void FindAveragePosition()
@@ -74,6 +37,8 @@ public class CameraControl : MonoBehaviour
             averagePos += player.transform.position;
             noOfTargets++;
         }
+        
+//        Debug.Log("targets: " + noOfTargets);
 
         if (noOfTargets > 0)
             averagePos /= noOfTargets;
@@ -110,7 +75,8 @@ public class CameraControl : MonoBehaviour
     {
         FindAveragePosition();
 
-        transform.position = Vector3.SmoothDamp(transform.position, finalPosition, ref moveVelocity, 0.2f);
+//        transform.position = Vector3.SmoothDamp(transform.position, finalPosition, ref moveVelocity, 0.2f);
+        transform.position = finalPosition;
     }
 
     private void Zoom()
@@ -121,8 +87,8 @@ public class CameraControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
-        Zoom();
+//        Move();
+//        Zoom();
 //        transform.position = Vector3.Lerp(transform.position, target.position + offset, Time.deltaTime * 5);
     }
 }

@@ -1,14 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 public class GenerateBlocks : MonoBehaviour
 {
     [SerializeField]
-    GameObject map;
+    private GameObject map;
+    [SerializeField] public GameObject crate;
+    
     public int noOfRows = 9;
-    private GameObject crate;
 
     private List<Tuple<int, int>> createCornersList()
     {
@@ -40,15 +40,13 @@ public class GenerateBlocks : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        crate = Resources.Load<GameObject>("Crate") as GameObject;
-
-        List<Tuple<int, int>> cornersList = createCornersList();
+        var cornersList = createCornersList();
 
         for (var i = -noOfRows; i <= noOfRows; i++)
         {
             for (var j = -noOfRows; j <= noOfRows; j++)
             {
-                Vector3 position = new Vector3(i, 0.5f, j);
+                var position = new Vector3(i, 0.5f, j);
 
                 var rate = UnityEngine.Random.Range(0f, 1f);
 

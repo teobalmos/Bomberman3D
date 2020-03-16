@@ -10,12 +10,13 @@ public class BombBehaviour : MonoBehaviour
 
     [SerializeField] public float explosionRadius;
 
-    void Start(){
+    private void Start(){
+        // need to change the way it ignores collision with the player who placed the bomb
         var playerCollider = GameObject.Find("Player").GetComponent<Collider>();
         Physics.IgnoreCollision(playerCollider, GetComponent<Collider>(), true);
     }
 
-    void OnDestroy(){
+    private void OnDestroy(){
         playParticles();
 
         destroyObjects();
@@ -23,7 +24,7 @@ public class BombBehaviour : MonoBehaviour
 
     void destroyObjects()
     {
-        Vector3[] directions = new Vector3[]{Vector3.back, Vector3.forward, Vector3.left, Vector3.right};
+        var directions = new Vector3[]{Vector3.back, Vector3.forward, Vector3.left, Vector3.right};
 
         foreach (var direction in directions)
         {

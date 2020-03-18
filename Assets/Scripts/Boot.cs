@@ -14,9 +14,9 @@ public class Boot : MonoBehaviour
 
     private IEnumerator bootCoroutine()
     {
-        SceneManager.LoadScene("GameMain", LoadSceneMode.Additive);
-        SceneManager.LoadScene("MenuScene", LoadSceneMode.Additive);
-        yield return null;
+        yield return SceneManager.LoadSceneAsync("GameMain", LoadSceneMode.Additive);
+        yield return SceneManager.LoadSceneAsync("MenuScene", LoadSceneMode.Additive);
+        yield return SceneManager.LoadSceneAsync("Background", LoadSceneMode.Additive);
         MenuManager.instance.ChangeMenu<TitleMenuScript>();
     }
 }

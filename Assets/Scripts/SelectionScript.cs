@@ -104,7 +104,7 @@ public class SelectionScript : Menu
         else
         {
             GameDirector.instance.SetPlayers(noOfPlayers);
-            SceneManager.LoadScene("GameScene");
+            GameDirector.instance.LoadLevel("GameScene");
         }
     }
 

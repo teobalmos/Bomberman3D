@@ -56,17 +56,40 @@ public class GameDirector : MonoBehaviour
             Instantiate(player, position, Quaternion.Euler(new Vector3(0, 180, 0)));
         }
     }
-    
 
-    private void Update()
+    public void LoadLevel(string level)
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        StartCoroutine(LoadLevelCoroutine(level));
+    }
+
+    private IEnumerator LoadLevelCoroutine(string level)
+    {
+        yield return SceneManager.LoadSceneAsync(level);
+        MenuManager.instance.ChangeMenu<InGameMenu>();
+        StartCoroutine(LevelGame());
+    }
+
+    private IEnumerator LevelGame()
+    {
+        var inGame = true;
+        spawnPlayers();
+
+        while (inGame)
         {
-            var unloadResult = SceneManager.UnloadSceneAsync("GameScene");
-
-            SceneManager.LoadScene("MenuScene");
-            MenuManager.instance.ChangeMenu<TitleMenuScript>();
-
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                inGame = false;
+            }
+            
+            yield return null;
         }
+        
+        ExitGame();
+    }
+
+    private void ExitGame()
+    {
+        SceneManager.LoadScene("Background");
+        MenuManager.instance.ChangeMenu<TitleMenuScript>();
     }
 }

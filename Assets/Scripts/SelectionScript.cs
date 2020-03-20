@@ -40,6 +40,18 @@ public class SelectionScript : Menu
 
     private void Update()
     {
+        if (GameDirector.instance.GetRestarted())
+        {
+            join1.interactable = true;
+            join2.interactable = true;
+            join3.interactable = true;
+            join4.interactable = true;
+            
+            noOfPlayers = 0;
+            
+            GameDirector.instance.SetRestarted(false);
+        }
+        
         if (Input.GetKey("escape"))
         {
             Application.Quit();

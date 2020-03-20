@@ -10,6 +10,7 @@ public class GameDirector : MonoBehaviour
     public GameObject[] playerPrefab;
     public int noOfRows = 9;
 
+    private bool restarted = false;
     private int maxPlayers = 4;
     private int noOfPlayers = 0;
     private List<Tuple<int, int>> spawnPositions = new List<Tuple<int, int>>();
@@ -31,6 +32,16 @@ public class GameDirector : MonoBehaviour
     public void SetPlayers(int players)
     {
         noOfPlayers = players;
+    }
+
+    public void SetRestarted(bool restart)
+    {
+        restarted = restart;
+    }
+
+    public bool GetRestarted()
+    {
+        return restarted;
     }
 
     private void CreatePlayerSpawnPositions()
@@ -90,11 +101,12 @@ public class GameDirector : MonoBehaviour
             yield return null;
         }
         
-        ExitGame();
+        ExitGame(true);
     }
 
-    private void ExitGame()
+    private void ExitGame(bool restart)
     {
+        restarted = restart;
         SceneManager.LoadScene("Background");
         MenuManager.instance.ChangeMenu<TitleMenuScript>();
     }

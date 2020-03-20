@@ -10,6 +10,7 @@ public class GameDirector : MonoBehaviour
     public GameObject[] playerPrefab;
     public int noOfRows = 9;
 
+    private int maxPlayers = 4;
     private int noOfPlayers = 0;
     private List<Tuple<int, int>> spawnPositions = new List<Tuple<int, int>>();
 
@@ -34,10 +35,15 @@ public class GameDirector : MonoBehaviour
 
     private void CreatePlayerSpawnPositions()
     {
-        spawnPositions.Add(new Tuple<int, int>(-noOfRows, -noOfRows));
-        spawnPositions.Add(new Tuple<int, int>(noOfRows, noOfRows));
-        spawnPositions.Add(new Tuple<int, int>(-noOfRows, noOfRows));
-        spawnPositions.Add(new Tuple<int, int>(noOfRows, -noOfRows));
+        if (spawnPositions.Count != maxPlayers)
+        {
+            spawnPositions.Clear();
+            spawnPositions.Add(new Tuple<int, int>(-noOfRows, -noOfRows));
+            spawnPositions.Add(new Tuple<int, int>(noOfRows, noOfRows));
+            spawnPositions.Add(new Tuple<int, int>(-noOfRows, noOfRows));
+            spawnPositions.Add(new Tuple<int, int>(noOfRows, -noOfRows));
+        }
+        
     }
 
     

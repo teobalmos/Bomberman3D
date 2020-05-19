@@ -7,13 +7,31 @@ public class BombBehaviour : MonoBehaviour
 {
     [SerializeField]
     public ParticleSystem particleSystemPrefab;
-
     [SerializeField] public float explosionRadius;
 
-    private void Start(){
-        // need to change the way it ignores collision with the player who placed the bomb
-        var playerCollider = GameObject.Find("Player").GetComponent<Collider>();
-        Physics.IgnoreCollision(playerCollider, GetComponent<Collider>(), true);
+    private List<Collider> playerColliders = new List<Collider>();
+
+    public List<Collider> GetColliders()
+    {
+        return playerColliders;
+    }
+
+    private void Start()
+    {
+        var position = transform.position;
+        var colliders = Physics.OverlapSphere(position, 0.2f);
+
+        foreach (var collider in colliders)
+        {
+            if (collider.gameObject.tag == "Player")
+            {
+                Debug.Log(collider);
+                playerColliders.Add(collider);
+                Physics.IgnoreCollision(collider, GetComponent<Collider>(), true);
+            }
+        }
+        
+        Debug.Log("Bomb placed");
     }
 
     private void OnDestroy(){
@@ -41,12 +59,11 @@ public class BombBehaviour : MonoBehaviour
 
     void playParticles()
     {
-        ParticleSystem particleSystem = Instantiate(particleSystemPrefab) as ParticleSystem;
+        var particleSystem = Instantiate(particleSystemPrefab) as ParticleSystem;
 
         particleSystem.transform.position = transform.position;
         particleSystem.Play();
 
         Destroy(particleSystem.gameObject, particleSystem.main.duration);
     }
-    
 }

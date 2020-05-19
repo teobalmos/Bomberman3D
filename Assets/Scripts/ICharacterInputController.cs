@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public interface ICharacterInputController{
-    void GetInput(ref CharacterInput input);
+public interface ICharacterInputController
+{
+    Vector2 GetDirection();
+    bool GetFire();
 } 
 
 public struct CharacterInput{

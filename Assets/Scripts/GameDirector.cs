@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Hardware;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameDirector : MonoBehaviour
@@ -11,9 +13,10 @@ public class GameDirector : MonoBehaviour
     public int noOfRows = 9;
 
     private bool restarted = false;
-    private int maxPlayers = 4;
+    private const int maxPlayers = 4;
     private int noOfPlayers = 0;
     private List<Tuple<int, int>> spawnPositions = new List<Tuple<int, int>>();
+    private List<Tuple<InputDevice, InputActionMap>> deviceList = new List<Tuple<InputDevice, InputActionMap>>();
 
     private void OnEnable()
     {
@@ -29,6 +32,16 @@ public class GameDirector : MonoBehaviour
         
     }
 
+    public void AddDevice(InputDevice device, InputActionMap actionMap)
+    {
+        deviceList.Add(new Tuple<InputDevice, InputActionMap>(device, actionMap));
+    }
+
+    public List<Tuple<InputDevice, InputActionMap>> GetDeviceList()
+    {
+        return deviceList;
+    }
+    
     public void SetPlayers(int players)
     {
         noOfPlayers = players;
@@ -58,7 +71,7 @@ public class GameDirector : MonoBehaviour
     }
 
     
-    public void spawnPlayers()
+    private void spawnPlayers()
     {
         CreatePlayerSpawnPositions();
         if (noOfPlayers == 0)
@@ -70,7 +83,11 @@ public class GameDirector : MonoBehaviour
             var player = playerPrefab[i];
             Debug.Log("i " + i + " // " + spawnPositions.Count);
             var position = new Vector3(spawnPositions[i].Item1, 0f, spawnPositions[i].Item2);
-            Instantiate(player, position, Quaternion.Euler(new Vector3(0, 180, 0)));
+            var newPlayer = PlayerInput.Instantiate(player, i, null, -1, pairWithDevice: deviceList[i].Item1);
+            newPlayer.transform.position = position;
+            newPlayer.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+            newPlayer.currentActionMap = deviceList[i].Item2;
+            newPlayer.defaultActionMap = deviceList[i].Item2.name;
         }
     }
 

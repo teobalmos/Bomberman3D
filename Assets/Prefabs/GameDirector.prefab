@@ -45,8 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab:
   - {fileID: 5394765155307691997, guid: bc5a8d4b75fa5b643918bbde09edf0b3, type: 3}
-  - {fileID: 5394765155307691997, guid: 89ceb98f47f56564d813b98aee35d857, type: 3}
-  - {fileID: 5394765155307691997, guid: 5b817c618450a8d41aa975517b18e780, type: 3}
-  - {fileID: 5394765155307691997, guid: 9fb35223fc8d9db43815069eca2dc547, type: 3}
+  - {fileID: 2756820875616089087, guid: 10f940b572dc68a4a918896c4f04b38b, type: 3}
+  - {fileID: 104680644425145696, guid: 6560899e320733d4ca1d9651119f04a6, type: 3}
+  - {fileID: 8286074518748820458, guid: 3a573bfbc53337049ad895a48b1daa44, type: 3}
   noOfRows: 9
-  map: {fileID: 5991692650821366214, guid: f9f0d134054704c4b9f05e6f19a2b7a2, type: 3}

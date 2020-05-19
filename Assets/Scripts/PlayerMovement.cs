@@ -16,29 +16,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        _iCharacterInputController = new HumanCharacterController();
+//        _iCharacterInputController = new HumanCharacterController();
         // _iCharacterInputController = new AICharacterController();
         anim = this.GetComponent<Animator> ();
         characterController = GetComponent<CharacterController>();
-    }
-
-    private void movePlayer(in CharacterInput input)
-    {
-        var moveHorizontal = input.horizontal;
-        var moveVertical = input.vertical;
-
-        moveDirection = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        
-        var Speed = new Vector2(moveHorizontal, moveVertical).sqrMagnitude;
-        anim.SetFloat("Blend", Speed );
-
-        if(Speed > 0f){
-            transform.rotation = Quaternion.LookRotation(moveDirection);
-        }
-
-        moveDirection.y -= 200f * Time.deltaTime;
-        characterController.Move(moveDirection * playerSpeed * Time.deltaTime);
-
     }
 
     private void placeBomb(){
@@ -69,9 +50,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         var input = new CharacterInput();
-        _iCharacterInputController.GetInput(ref input);
-
-        movePlayer(in input);
+//        _iCharacterInputController.GetInput(ref input);
 
         var bombFound = GameObject.FindGameObjectsWithTag("Bomb");
 

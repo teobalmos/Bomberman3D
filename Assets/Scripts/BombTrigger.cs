@@ -1,31 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BombTrigger : MonoBehaviour
 {
+    public BombBehaviour bombbehaviour;
+    
+    private List<Collider> ignoredColliders = new List<Collider>();
+    private void Start()
+    {
+        ignoredColliders = bombbehaviour.GetColliders();
+    }
+
     private void collisionIgnore()
     {
         Debug.Log("Trigger exit");
-        var playerCollider = GameObject.Find("Player").GetComponent<Collider>();
-        var colliders = playerCollider.gameObject.GetComponentsInChildren<Collider>();
-        if (colliders.Length > 0)
+        foreach (var collider in ignoredColliders)
         {
-            Debug.Log("multiple colliders: " + colliders.Length);
-        }
-        //Debug.Log(other.gameObject.name);
-
-        if (playerCollider.gameObject.tag == "Player")
-        {            
-            Physics.IgnoreCollision(playerCollider, gameObject.transform.parent.gameObject.GetComponent<Collider>(), false);
-            Debug.Log("player collider found");
+            Physics.IgnoreCollision(collider, gameObject.transform.parent.gameObject.GetComponent<Collider>(), false);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         Invoke("collisionIgnore", 0f);
-        
-        //        Physics.IgnoreCollision(playerCollider, GetComponent<Collider>(), false);
     }
 }
